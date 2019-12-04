@@ -159,42 +159,27 @@ const arrayContains = (arr, elementArr) => {
 // attempt to place piece a in aboard with location dy,dx with orientation and reflection
 // returns boolean value
 const tryPiece = (piece, dy, dx, orientation, reflection, aboard) => {
-    // console.log('piece')
-    // console.log(piece)
-    // console.log('dy dx')
-    // console.log(dy, dx)
-    // console.log('aboard')
-    // console.log(aboard)
-    // console.log('reflection')
-    // console.log(reflection)
     for (const block of piece.data) {
         const [i, j, char] = block
         const mult = 1 - 2 * reflection
         if (orientation == 0) { // as is
-            // if (!aboard.data.incldes([i + dy, mult * j + dx, char])) {
             if (!arrayContains(aboard.data, [i + dy, mult * j + dx, char])) {
-                // console.log([i + dy, mult * j + dx, char])
-                // console.log('FalseFalse')
                 return false
             }
         } else if (orientation == 1) { //90 degrees counterclockwise
-            // if (!aboard.data.includes([-mult * j + dy, i + dx, char])) {
             if (!arrayContains(aboard.data, [-mult * j + dy, i + dx, char])) {
                 return false
             }
         } else if (orientation == 2) { //180 degree rotation
-            // if (!aboard.data.includes([-i + dy, -mult * j + dx, char])) {
             if (!arrayContains(aboard.data, [-i + dy, -mult * j + dx, char])) {
                 return false
             }
         } else if (orientation == 3) { // 270 degree counterclockwise
-            // if (!aboard.data.includes([mult * j + dy, -i + dx, char])) {
             if (!arrayContains(aboard.data, [mult * j + dy, -i + dx, char])) {
                 return false
             }
         }
     }
-    // console.log('truetrue')
     return true
 }
 
@@ -207,10 +192,8 @@ const boardFirstSolve = (bfirst, solutions, sameSize) => {
         return
     }
     const curState = bfirst.shift()
-    // console.log(curState)
     const [abag, aused, aboards] = curState
     if (aboards.length == 0) {
-        // alert("solved")
         console.log("solved")
         solutions.push(aused)
         console.log(solutions)
@@ -226,17 +209,11 @@ const boardFirstSolve = (bfirst, solutions, sameSize) => {
         }
     }
     const sq = aboard.data[0]
-    // console.log('jamesku1996')
-    // console.log(pieceFit(aboard, abag, sq[0], sq[1]))
     const pf = pieceFit(aboard, abag, sq[0], sq[1])
     for (const config of pf) {
         const [piece, center, ori, ref] = config
         const tempBoards = aboards.slice()
         tempBoards[0] = changeBoard2(piece, sq[0], sq[1], center, ori, ref, aboard)
-        // console.log('tempboard')
-        // console.log(tempBoards[0])
-        // console.log('piece')
-        // console.log(piece)
         if (tempBoards[0].size == 0) {
             tempBoards.shift()
         } else {
@@ -436,17 +413,8 @@ export const solve = (input, allowReflections = false) => {
     const bfirst = [[bag, used, [board]]]
     console.log('board')
     console.log(board)
-    let i = 0
     while (bfirst.length > 0) {
-        // console.log(bfirst)
         boardFirstSolve(bfirst, solutions, sameSize)
-        // if (solutions.length > 0 || i >= 48249) {
-        //     console.log('step: ' + i)
-        //     console.log(solutions)
-        //     break
-        // }
-        // break
-        i++
     }
     console.log('bfirst')
     console.log(bfirst)
