@@ -1,5 +1,18 @@
-
-import myTextFile from './boards/pentominoes4x15'
+import checkerboard from './boards/checkerboard'
+import IQ_creator from './boards/IQ_creator'
+import lucky13 from './boards/lucky13'
+import new_board from './boards/new'
+import pentominoes3x20 from './boards/pentominoes3x20'
+import pentominoes4x15 from './boards/pentominoes4x15'
+import pentominoes5x12 from './boards/pentominoes5x12'
+import pentominoes6x10 from './boards/pentominoes6x10'
+import pentominoes8x8_middle_missing from './boards/pentominoes8x8_middle_missing'
+import test1 from './boards/test1'
+import test2 from './boards/test2'
+import thirteen_holes from './boards/thirteen_holes'
+import trivial from './boards/trivial'
+import trivial2 from './boards/trivial2'
+import { colors } from './colors'
 
 class Piece {
     constructor(char) {
@@ -32,6 +45,18 @@ class Piece {
             this.size++
             this.buildPiece(y, x + 1, dy, dx + 1, layout)
         }
+    }
+
+    getHeightWith() {
+        let xLow = 0, xHigh = 0, yLow = 0, yHigh = 0
+        for (const sq of this.data) {
+            const [y, x, _] = sq
+            yLow = Math.min(yLow, y)
+            yHigh = Math.max(yHigh, y)
+            xLow = Math.min(xLow, x)
+            xHigh = Math.min(xHigh, x)
+        }
+        return [yHigh - yLow + 1, xHigh - xLow + 1]
     }
 }
 
@@ -130,10 +155,10 @@ const sizeCheck = (bag, boardSize) => {
     })
     if (totalSize >= boardSize) {
         console.log("Valid puzzle so far")
-        alert("Valid puzzle so far")
+        // alert("Valid puzzle so far")
     } else {
         console.log("Stop right there. Not enough pieces to cover board")
-        alert("Stop right there. Not enough pieces to cover board")
+        // alert("Stop right there. Not enough pieces to cover board")
     }
 }
 
@@ -337,13 +362,35 @@ const getLayoutFromLines = (lines) => {
     return layout
 }
 
-export const test = (setInput) => {
-    fetch(myTextFile)
-        .then((r) => r.text())
-        .then(text => {
-            setInput(text)
-            // console.log(text);
-        })
+// export const test = (setInput) => {
+// fetch(myTextFile)
+//     .then((r) => r.text())
+//     .then(text => {
+//         setInput(text)
+//         // console.log(text);
+//     })
+// }
+
+export const getBoard = async (name) => {
+    const boards = {
+        'checkerboard': checkerboard,
+        'IQ_creator': IQ_creator,
+        'lucky13': lucky13,
+        'new': new_board,
+        'pentominoes3x20': pentominoes3x20,
+        'pentominoes4x15': pentominoes4x15,
+        'pentominoes5x12': pentominoes5x12,
+        'pentominoes6x10': pentominoes6x10,
+        'pentominoes8x8_middle_missing': pentominoes8x8_middle_missing,
+        'test1': test1,
+        'test2': test2,
+        'thirteen_holes': thirteen_holes,
+        'trivial': trivial,
+        'trivial2': trivial2
+    }
+    const res = await fetch(boards[name])
+    const board = await res.text()
+    return board
 }
 
 
@@ -415,9 +462,57 @@ export const solve = (input, allowReflections = false) => {
     console.log(board)
     while (bfirst.length > 0) {
         boardFirstSolve(bfirst, solutions, sameSize)
+        if (solutions.length > 0) {
+            break
+        }
     }
     console.log('bfirst')
     console.log(bfirst)
     console.log('solutions')
     console.log(solutions)
+    const [height, width] = board.getHeightWith()
+    console.log('grid')
+    console.log(solutionToGrid(solutions[0], height, width))
+    return solutions.map(solution => solutionToGrid(solution, height, width))
+}
+
+const getRandomColor = () => {
+    var letters = '0123456789ABCDEF';
+    var color = '#';
+    for (var i = 0; i < 6; i++) {
+        color += letters[Math.floor(Math.random() * 16)];
+    }
+    return color;
+}
+
+const solutionToGrid = (solution, height, width) => {
+    const grid = []
+    for (let i = 0; i < height; ++i) {
+        grid.push([])
+    }
+    for (let i = 0; i < solution.length; ++i) {
+        const [piece, y, x, ori, ref] = solution[i]
+        const mult = 1 - 2 * ref
+        for (const square of piece.data) {
+            const [dy, dx, char] = square
+            switch (ori) {
+                case 0:
+                    grid[y + dy][x + mult * dx] = colors[i]
+                    break;
+                case 1:
+                    grid[y - mult * dx][x + dy] = colors[i]
+                    break
+                case 2:
+                    grid[y - dy][x - mult * dx] = colors[i]
+                    break
+                case 3:
+                    grid[y + mult * dx][x - dy] = colors[i]
+                    break;
+                default:
+                    break;
+            }
+        }
+
+    }
+    return grid
 }

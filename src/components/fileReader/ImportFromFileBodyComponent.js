@@ -1,4 +1,5 @@
 import React from 'react'
+import Button from '@material-ui/core/Button'
 const ImportFromFileBodyComponent = ({ setInput }) => {
     let fileReader;
 
@@ -16,12 +17,17 @@ const ImportFromFileBodyComponent = ({ setInput }) => {
     };
 
     return <div className='upload-expense'>
-        <input type='file'
-            id='file'
-            className='input-file'
-            // accept='.csv'
-            onChange={e => handleFileChosen(e.target.files[0])}
-        />
+        <Button variant="contained" component="label">
+            Select File
+            <input type='file'
+                id='file'
+                className='input-file'
+                style={{ display: "none" }}
+                // accept='.csv'
+                onChange={e => handleFileChosen(e.target.files[0])}
+            />
+        </Button>
+
     </div>;
 };
 

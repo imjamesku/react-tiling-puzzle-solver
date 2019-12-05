@@ -1,7 +1,7 @@
-# Tiling Puzzle Solver
+# [Tiling Puzzle Solver](https://jamesku1996.github.io/react-tiling-puzzle-solver/)
 Term project for CS6161 - Algorithms
+Check out the demo [HERE](https://jamesku1996.github.io/react-tiling-puzzle-solver/)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
 

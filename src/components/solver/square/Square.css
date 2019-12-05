@@ -1,0 +1,8 @@
+.square {
+    width: 25px;
+    height: 25px;
+    margin: 0;
+    outline: 1px solid rgb(175, 216, 248);
+    display: inline-block;
+    float: left;
+}
