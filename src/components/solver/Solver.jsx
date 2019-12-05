@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { solve, getBoard } from '../../solver/solver'
 import ImportFromFileBodyComponent from '../fileReader/ImportFromFileBodyComponent'
 import Square from './square/Square'
@@ -31,13 +31,16 @@ export const Solver = () => {
 
     const getSolutions = () => {
         setSolving(true)
-        const s = solve(input)
-        console.log(s)
-        setSolutions(s)
-        console.log(solutions)
-        setGrid(s[0])
-        setSolving(false)
     }
+
+    useEffect(() => {
+        if (solving) {
+            const s = solve(input)
+            setSolutions(s)
+            setGrid(s[0])
+            setSolving(false)
+        }
+    }, [solving])
 
     const loadDefaultBoards = async name => {
         console.log(name)
