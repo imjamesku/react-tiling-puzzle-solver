@@ -17,20 +17,25 @@ export const Solver = () => {
         'checkerboard',
         'IQ_creator',
         'lucky13',
-        'new',
+        // 'new',
         'pentominoes3x20',
         'pentominoes4x15',
         'pentominoes5x12',
         'pentominoes6x10',
-        'pentominoes8x8_middle_missing',
+        // 'pentominoes8x8_middle_missing',
         // 'test1',
         // 'test2',
-        'thirteen_holes',
+        // 'thirteen_holes',
         'trivial',
         'trivial2']
 
     const getSolutions = () => {
-        setSolving(true)
+        if (input !== '') {
+            setSolving(true)
+        }
+        else {
+            window.alert("Please select a board")
+        }
     }
 
     useEffect(() => {
