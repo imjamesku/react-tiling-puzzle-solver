@@ -1,5 +1,6 @@
 # [Tiling Puzzle Solver](https://jamesku1996.github.io/react-tiling-puzzle-solver/)
 Term project for CS6161 - Algorithms
+
 Check out the demo [HERE](https://jamesku1996.github.io/react-tiling-puzzle-solver/)
 
 
